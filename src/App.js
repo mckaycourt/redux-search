@@ -1,28 +1,48 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component, Fragment} from 'react';
+import Cards from './cards';
+
+
+const createMarkup = (rawInfo = null) => {
+    return {
+        __html: rawInfo,
+    }
+};
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <Fragment>
+                <input type='text'
+                       name='search'
+                       placeholder='Search Card names'
+                />
+                <table border="1">
+                    <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Flavor</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {Cards.map((card) => {
+                            if (card.flavor) {
+                                return (
+                                    <tr key={card.id}>
+                                        <td>{card.name}</td>
+                                        <td dangerouslySetInnerHTML={createMarkup(card.flavor)}></td>
+                                    </tr>
+                                )
+                            }
+                            return (
+                                null
+                            )
+                        }
+                    )}
+                    </tbody>
+                </table>
+            </Fragment>
+        );
+    }
 }
 
 export default App;
